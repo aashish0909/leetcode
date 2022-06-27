@@ -9,12 +9,10 @@ public:
             carry += (i >= 0 ? a[i--] - '0' : 0);
             carry += (j >= 0 ? b[j--] - '0' : 0);
             
-            s += (carry % 2 + '0');
+            s += char(carry % 2 + '0');
             carry /= 2;
         }
-        
         reverse(s.begin(), s.end());
-        
         return s;
     }
 };
