@@ -24,32 +24,16 @@ public:
     }
     
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        ListNode* head = new ListNode();
-        ListNode* temp = head;
+        if(!l1) return  l2;
+        if(!l2) return l1;
         
-        while(l1 && l2) {
-            ListNode* newNode = new ListNode();
-            if(l1->val < l2->val)
-                newNode->val = l1->val, l1 = l1->next;
-            else
-                newNode->val = l2->val, l2 = l2->next;
-            
-            temp->next = newNode;
-            temp = temp->next;
+        if(l1->val < l2->val) {
+            l1->next = mergeTwoLists(l1->next, l2);
+            return l1;
         }
-        
-        while(l1) {
-            temp->next = new ListNode(l1->val);
-            temp = temp->next;
-            l1 = l1->next;
+        else {
+            l2->next = mergeTwoLists(l1, l2->next);
+            return l2;
         }
-        
-        while(l2) {
-            temp->next = new ListNode(l2->val);
-            temp = temp->next;
-            l2 = l2->next;
-        }
-        
-        return head->next;
     }
 };
