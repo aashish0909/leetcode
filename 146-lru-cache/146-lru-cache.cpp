@@ -1,18 +1,18 @@
+class Node {
+    public:
+    int key;
+    int val;
+    Node* next;
+    Node* prev;
+
+    Node (int _key, int _val) {
+        key = _key;
+        val = _val;
+    }
+};
+
 class LRUCache {
-public:
-    class Node {
-        public:
-        int key;
-        int val;
-        Node* next;
-        Node* prev;
-        
-        Node (int _key, int _val) {
-            key = _key;
-            val = _val;
-        }
-    };
-    
+public:    
     int cap;
     unordered_map<int, Node*> mp;
     Node* head = new Node(-1, -1);
@@ -22,14 +22,6 @@ public:
         cap = capacity;
         head->next = tail;
         tail->prev = head;
-    }
-    
-    void addNode(Node* node) {
-        auto temp = head->next;
-        head->next = node;
-        node->next = temp;
-        temp->prev = node;
-        node->prev = head;
     }
     
     void deleteNode(Node* node) {
@@ -63,6 +55,14 @@ public:
         }
         addNode(new Node(key, value));
         mp[key] = head->next;
+    }
+    
+    void addNode(Node* node) {
+        auto temp = head->next;
+        head->next = node;
+        node->next = temp;
+        temp->prev = node;
+        node->prev = head;
     }
 };
 
