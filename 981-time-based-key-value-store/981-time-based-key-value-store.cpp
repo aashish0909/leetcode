@@ -10,9 +10,6 @@ public:
     }
     
     string get(string key, int timestamp) {
-        if(!mp.count(key))
-            return "";
-        
         int left = 0, right = mp[key].size();
         
         while(left < right) {
