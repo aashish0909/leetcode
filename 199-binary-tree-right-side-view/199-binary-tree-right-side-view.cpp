@@ -11,25 +11,22 @@
  */
 class Solution {
 public:
+    vector<int> ans;
     vector<int> rightSideView(TreeNode* root) {
-        vector<int> ans;
+        ans.clear();
         int maxLevel = -1;
-        traverse(ans, root, 0, &maxLevel);
-                 
+        func(root, &maxLevel, 0);
+        
         return ans;
     }
     
-    void traverse(vector<int>& ans, TreeNode* root, 
-                  int level, int *maxLevel) {
+    void func(TreeNode* root, int *maxLevel, int level) {
         if(!root) return;
-        
-        
         if(level > *maxLevel) {
-            ans.push_back(root->val);
             *maxLevel = level;
+            ans.push_back(root->val);
         }
-        
-        traverse(ans, root->right, level + 1, &(*maxLevel));
-        traverse(ans, root->left, level + 1, &(*maxLevel));
+        func(root->right, &(*maxLevel), level + 1);
+        func(root->left, &(*maxLevel), level + 1);
     }
 };
