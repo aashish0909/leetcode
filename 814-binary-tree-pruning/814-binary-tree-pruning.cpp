@@ -18,7 +18,6 @@ public:
         root->right = pruneTree(root->right);
 
         if(!root->left && !root->right && root->val == 0) {
-            delete root;
             return NULL;
         }
         return root;
