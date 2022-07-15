@@ -13,7 +13,7 @@ public:
             else left = mid + 1;
         }
         
-        return left;
+        return right;
     }
     
     int count(vector<vector<int>>& matrix, int mid) {
