@@ -12,25 +12,35 @@ public:
 
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-        if (root == NULL) return "#";
-        return to_string(root->val) + "," + serialize(root->left) + "," + serialize(root->right);
+        if(!root) return "!";
+        
+        string left = serialize(root->left);
+        string right = serialize(root->right);
+        
+        return to_string(root->val) + ';' + left + ';' + right;
     }
 
+    // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-        if (data == "#") return NULL;
-        stringstream s(data);
-        return makeDeserialize(s);
+        int i = 0;
+        return decode(data, i);
     }
     
-    TreeNode* makeDeserialize(stringstream& s) {
-        string str;
-        getline(s, str, ',');
-        if (str == "#") {
+    TreeNode* decode(string data, int &i) {
+        if(i < data.size() && data[i] == '!') {
+            i += 2;
             return NULL;
-        } else {
-            TreeNode* root = new TreeNode(stoi(str));
-            root->left = makeDeserialize(s);
-            root->right = makeDeserialize(s);
+        }
+        else {
+            int j = i;
+            while(data[j] != ';')
+                ++j;
+            int curr = stoi(data.substr(i, j));
+            i = j + 1;
+            TreeNode* root = new TreeNode(curr);
+            root->left = decode(data, i);
+            root->right = decode(data, i);
+            
             return root;
         }
     }
