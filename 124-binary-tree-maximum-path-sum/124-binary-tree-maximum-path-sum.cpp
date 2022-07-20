@@ -11,10 +11,10 @@
  */
 class Solution {
 public:
-    
     int maxPathSum(TreeNode* root) {
         int ans = INT_MIN;
         find(root, ans);
+        
         return ans;
     }
     
@@ -24,7 +24,7 @@ public:
         int left = max(0, find(root->left, ans));
         int right = max(0, find(root->right, ans));
         
-        ans = max(ans, root->val + left + right);
+        ans = max(ans, left + right + root->val);
         
         return root->val + max(left, right);
     }
