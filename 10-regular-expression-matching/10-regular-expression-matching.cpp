@@ -11,19 +11,19 @@ public:
                 dp[0][i] = true;
         }
         
-        for(int sPos = 1; sPos < n + 1; sPos++) {
-            for(int pPos = 1; pPos < m + 1; pPos++) {
-                char currS = s[sPos - 1];
-                char currP = p[pPos - 1];
+        for(int i = 1; i < n + 1; i++) {
+            for(int j = 1; j < m + 1; j++) {
+                char currS = s[i - 1];
+                char currP = p[j - 1];
                 if(currS == currP || currP == '.')
-                    dp[sPos][pPos] = dp[sPos - 1][pPos - 1];
+                    dp[i][j] = dp[i - 1][j - 1];
                 else if(currP == '*') {
-                    if(p[pPos - 2] != currS && p[pPos - 2] != '.')
-                        dp[sPos][pPos] = dp[sPos][pPos - 2];
+                    if(p[j - 2] != currS && p[j - 2] != '.')
+                        dp[i][j] = dp[i][j - 2];
                     else {
-                        dp[sPos][pPos] = dp[sPos][pPos] || dp[sPos - 1][pPos];
-                        dp[sPos][pPos] = dp[sPos][pPos] || dp[sPos - 1][pPos - 2];
-                        dp[sPos][pPos] = dp[sPos][pPos] || dp[sPos][pPos - 2];
+                        dp[i][j] = dp[i][j] || dp[i - 1][j];
+                        dp[i][j] = dp[i][j] || dp[i - 1][j - 2];
+                        dp[i][j] = dp[i][j] || dp[i][j - 2];
                     }
                 }
             }
