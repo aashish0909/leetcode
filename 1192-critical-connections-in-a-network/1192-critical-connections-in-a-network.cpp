@@ -1,48 +1,38 @@
 class Solution {
 public:
     vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
-        vector<vector<int>> ans;
-        vector<int> in(n, -1);
-        vector<int> low(n, -1);
-        vector<int> visited(n, 0);
-        vector<int> graph[n];
-        
-        for(auto i : connections) {
-            graph[i[0]].push_back(i[1]);
-            graph[i[1]].push_back(i[0]);
+        vector<bool> vi(n, false);
+        vector<int> disc(n, 0), low(n, 0), parent(n, -1);
+        vector<vector<int>> g(n, vector<int>()), res;
+        for (auto& p : connections) {
+            g[p.front()].push_back(p.back());
+            g[p.back()].push_back(p.front());
         }
-        
-        for(int i = 0; i < n; i++) {
-            if(!visited[i]) {
-                dfs(graph, visited, in, low, i, -1, ans);
-            }
+        for (int i = 0; i < n; ++i) {
+            if (vi[i]) continue;
+            h(i, vi, disc, low, parent, g, res);
         }
-        
-        return ans;
+        return res;
     }
-    
-    void dfs(vector<int> graph[], vector<int>& visited, vector<int>& in, vector<int>& low, int &node, int par, vector<vector<int>>& ans) {
-        
-        static int timer = 0;
-        visited[node] = 1;
-        in[node] = low[node] = timer++;
-        
-        for(auto it : graph[node]) {
-            if(it == par)
-                continue;
-            
-            if(!visited[it]) {
-                dfs(graph, visited, in, low, it, node, ans);
-                low[node] = min(low[node], low[it]);
-                if(low[it] > in[node]) {
-                    vector<int> temp = {node, it};
-                    cout << node << ' ' << it;
-                    ans.push_back(temp);
+
+    void h(int u, vector<bool>& vi, vector<int>& disc, vector<int>& low, vector<int>& parent, vector<vector<int>>& g, vector<vector<int>>& res) {
+        static int time = 0;
+        vi[u] = true;
+        disc[u] = low[u] = ++time;
+        for (int v : g[u]) {
+            if (!vi[v]) {
+                parent[v] = u;
+                h(v, vi, disc, low, parent, g, res);
+                low[u] = min(low[u], low[v]);
+                if (low[v] > disc[u]) {
+                    res.push_back({u, v});
                 }
+
+            } else if (v != parent[u]) {
+                low[u] = min(low[u], disc[v]);
             }
-            else {
-                low[node] = min(low[node], in[it]);
-            }
+
         }
     }
+
 };
