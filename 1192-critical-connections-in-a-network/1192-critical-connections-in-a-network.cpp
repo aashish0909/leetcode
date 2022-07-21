@@ -6,7 +6,7 @@ public:
         vector<int> low(n, -1);
         vector<int> visited(n, 0);
         int timer = 0;
-        vector<int> graph[n];
+        vector<vector<int>> graph(n);
         
         for(auto i : connections) {
             graph[i[0]].push_back(i[1]);
@@ -22,7 +22,7 @@ public:
         return ans;
     }
     
-    void dfs(vector<int> graph[], vector<int>& visited, vector<int>& in, vector<int>& low, int &node, int par, int &timer, vector<vector<int>>& ans) {
+    void dfs(vector<vector<int>>& graph, vector<int>& visited, vector<int>& in, vector<int>& low, int &node, int par, int &timer, vector<vector<int>>& ans) {
         
         visited[node] = 1;
         in[node] = low[node] = timer++;
