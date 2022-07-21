@@ -5,7 +5,6 @@ public:
         vector<int> in(n, -1);
         vector<int> low(n, -1);
         vector<int> visited(n, 0);
-        int timer = 0;
         vector<int> graph[n];
         
         for(auto i : connections) {
@@ -15,15 +14,16 @@ public:
         
         for(int i = 0; i < n; i++) {
             if(!visited[i]) {
-                dfs(graph, visited, in, low, i, -1, timer, ans);
+                dfs(graph, visited, in, low, i, -1, ans);
             }
         }
         
         return ans;
     }
     
-    void dfs(vector<int> graph[], vector<int>& visited, vector<int>& in, vector<int>& low, int &node, int par, int &timer, vector<vector<int>>& ans) {
+    void dfs(vector<int> graph[], vector<int>& visited, vector<int>& in, vector<int>& low, int &node, int par, vector<vector<int>>& ans) {
         
+        static int timer = 0;
         visited[node] = 1;
         in[node] = low[node] = timer++;
         
@@ -32,7 +32,7 @@ public:
                 continue;
             
             if(!visited[it]) {
-                dfs(graph, visited, in, low, it, node, timer, ans);
+                dfs(graph, visited, in, low, it, node, ans);
                 low[node] = min(low[node], low[it]);
                 if(low[it] > in[node]) {
                     vector<int> temp = {node, it};
