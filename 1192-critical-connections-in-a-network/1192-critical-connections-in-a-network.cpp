@@ -6,7 +6,7 @@ public:
         vector<int> low(n, -1);
         vector<int> visited(n, 0);
         int timer = 0;
-        vector<vector<int>> graph(n);
+        vector<vector<int>> graph(n, vector<int>());
         
         for(auto i : connections) {
             graph[i[0]].push_back(i[1]);
