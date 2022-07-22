@@ -18,7 +18,7 @@ public:
                 if(currS == currP || currP == '?')
                     dp[i][j] = dp[i - 1][j - 1];
                 else if(currP == '*') {
-                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - 1] || dp[i][j - 1];
+                    dp[i][j] = dp[i - 1][j] || dp[i][j - 1];
                 }
             }
         }
