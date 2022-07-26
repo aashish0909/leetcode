@@ -22,26 +22,28 @@ public:
             return ans;
         }
         
-        vector<vector<vector<int>>> dp(n + 1, vector<vector<int>>(2, vector<int>(k + 1, 0)));
+        vector<vector<int>> after(2, vector<int>(k + 1, 0));
+        vector<vector<int>> curr(2, vector<int>(k + 1, 0));
         
         for(int i = n - 1; i >= 0; i--) {
             for(int buy = 0; buy <= 1; buy++) {
                 for(int cap = 1; cap <= k; cap++) {
                     if(buy) {
-                        int bought = -prices[i] + dp[i + 1][0][cap];
-                        int nobuy = dp[i + 1][1][cap];
+                        int bought = -prices[i] + after[0][cap];
+                        int nobuy = after[1][cap];
 
-                        dp[i][buy][cap] = max(bought, nobuy);
+                        curr[buy][cap] = max(bought, nobuy);
                     }
                     else {
-                        int sold = prices[i] + dp[i + 1][1][cap - 1];
-                        int nosell = dp[i + 1][0][cap];
-                        dp[i][buy][cap] = max(sold, nosell);
+                        int sold = prices[i] + after[1][cap - 1];
+                        int nosell = after[0][cap];
+                        curr[buy][cap] = max(sold, nosell);
                     }
                 }
             }
+            after = curr;
         }
         
-        return dp[0][1][k];
+        return after[1][k];
     }
 };
