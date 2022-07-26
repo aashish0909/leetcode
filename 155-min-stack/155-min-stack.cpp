@@ -1,42 +1,47 @@
 class MinStack {
-private:
-    class Node {
-    public:
-        int val;
-        int min;
-        Node* next;
-
-        Node(int v, int x, Node* next) {
-            this->val = v;
-            this->min = x;
-            this->next = next;
-        }
-    };
-
-    Node* head;
-
 public:
-
+    stack<long long> minStack;
+    long long minEle;
     MinStack() {
-        head = NULL;
+        
     }
-
+    
     void push(int val) {
-        if (!head)
-            head = new Node(val, val, head);
-        else
-            head = new Node(val, min(head->min, val), head);
+        if(minStack.empty())
+            minEle = val;
+        if(minEle < val) {
+            minStack.push(val);
+        }
+        else {
+            minStack.push(0ll + val + val - minEle);
+            minEle = val;
+        }
     }
-
+    
     void pop() {
-        head = head->next;
+        long long x = minStack.top();
+        minStack.pop();
+        if(x < minEle)
+            minEle = minEle + minEle - x;
     }
-
+    
     int top() {
-        return head->val;
+        long long x = minStack.top();
+        if(x < minEle)
+            return minEle;
+        else return x;
     }
-
+    
     int getMin() {
-        return head->min;
+        return minEle;
     }
 };
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(val);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
