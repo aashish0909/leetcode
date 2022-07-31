@@ -9,17 +9,15 @@ public:
         
         if(sum % 2) return false;
         
-        vector<vector<int>> dp(n, vector<int>((sum / 2 )+ 1, -1));
-        return calc(nums, sum / 2, 0, dp);
-    }
-    
-    bool calc(vector<int>& nums, int sum, int i, vector<vector<int>>& dp) {
-        if(sum == 0)
-            return true;
-        if(sum < 0 || i >= nums.size())
-            return false;
-        if(dp[i][sum] != -1)
-            return dp[i][sum];
-        return dp[i][sum] = calc(nums, sum - nums[i], i + 1, dp) || calc(nums, sum, i + 1, dp);
+        vector<vector<bool>> dp(n + 1, vector<bool>(sum / 2 + 1, false));
+        for(int i = n - 1; i >= 0; i--) {
+            for(int j = 0; j <= sum / 2; j++) {
+                if(j == 0) dp[i][j] = true;
+                else if(j - nums[i] >= 0)
+                    dp[i][j] = dp[i + 1][j - nums[i]] || dp[i + 1][j];
+                else dp[i][j] = dp[i + 1][j];
+            }
+        } 
+        return dp[0][sum / 2];
     }
 };
